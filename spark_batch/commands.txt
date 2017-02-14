@@ -1,0 +1,82 @@
+files in spark batch
+all_stations.json  spark_mr_batch.py  test_hourly.txt  txt  wind_window.py
+
+<---------------------------run spark streaming---------------------------->
+#FROM /usr/local/spark
+
+./bin/spark-submit --packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.1.0 get_kafka_stream.py
+
+<--------------------------------run producers------------------------------->
+#FROM kafka 2 & 3 , /home/ubuntu/get_wind
+./get_wind.sh
+
+<-----------------------run spark batch---------------------------------->
+#FROM /usr/local/spark
+bin/spark-submit --master spark://ip-172-31-1-197:7077 --packages com.amazonaws:aws-java-sdk-pom:1.10.34,org.apache.hadoop:hadoop-aws:2.7.2 spark_mr_batch.py
+
+<----------------------------pyspark cli---------------------------->
+#FROM /usr/local/spark
+bin/pyspark --master spark://ip-172-31-1-197:7077 --packages com.amazonaws:aws-java-sdk-pom:1.10.34,org.apache.hadoop:hadoop-aws:2.7.2 
+<-------------------run transfer between esindicies@midnight--------------->
+#FROM /usr/local/spark
+./bin/spark-submit.py wind_window.py
+
+# <-------------------------run webapp-------------------------------------->
+#FROM /home/ubuntu
+sudo -E python tornadoapp.py
+
+
+# <--------------------------exact location------------------------------->
+
+{ "query": 
+	{"bool" : 
+		{"must" : 
+			[{"term" : {"month":"12"}},
+			 {"range" : {"maxWs":{"gte":15}}}
+			 ],
+		"filter" : {"geo_distance" : 
+						{"distance" : ".001km",
+						 "location" : {"lat" : 27.35,
+						 				"lon" : -94.633
+						 				}
+						 }
+					}
+		}
+	}
+}
+
+{ "query": 
+	{"bool" : 
+		{"must" : {"match":{}}
+
+{ "query": 
+	{"bool" : 
+		{"must" : 
+			[{"term" : {"month":"12"}},
+			 {"range" : {"maxWs":{"gte":15}}}
+			 ],
+		"filter" : {"geo_distance" : 
+						{"distance" : "80km",
+						 "location" : {"lat" : lat,
+						 				"lon" : lon
+						 				}
+						 }
+					}
+		}
+	}
+}
+
+{ "query": 
+	{"bool" : 
+		{"must" : 
+			 {"range" : {"hour":{"gte":str(int(hour)-1), "lte":hour}}},
+		"filter" : {"geo_distance" : 
+						{"distance" : ".5km",
+						 "location" : {"lat" : lat,
+						 				"lon" : lon
+						 				}
+						 }
+					}
+		}
+	}
+}

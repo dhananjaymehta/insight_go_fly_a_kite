@@ -1,0 +1,116 @@
+<html>
+<head>
+   <link href="../../static/css/bootstrap.min.css" rel="stylesheet">
+   <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+   <link href="../static/css/starter-template.css" rel="stylesheet">
+   <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+   <link rel="stylesheet" href="../static/css/leaflet.awesome-markers.css">
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+   <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+   <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+
+   <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+   <script src="https://use.fontawesome.com/54d971dc03.js"></script>
+   <script src="../static/js/leaflet.awesome-markers.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+   <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+   <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+   <title>{{title}} - microblog</title>
+</head>
+<body>
+   <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Go Fly a Kite</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li ><a href="email">Home</a></li>
+            <li ><a href="index">Map</a></li>
+            <li ><a href="realtime">Data</a></li>
+            <li class="active"><a href="#">Regions</a></li>
+
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+   <div data-tap-disable="true">
+    <div id="mapid" style="width: 100%; height: 100%;"></div>
+    <!-- <div id="slider"></div> -->
+  </div>
+   <script>
+      var mymap = L.map('mapid').setView([42.09861, -83.16111], 13);
+      L.tileLayer('https://api.mapbox.com/styles/v1/moriahc/ciypghxzj000m2rptn1avcsq6/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibW9yaWFoYyIsImEiOiJjaXlwZ2Q2b3gwMDNvMnFwZ3lvcHVkM244In0.Cc3-I1gUP2xtPDhQ-ecXKQ', {
+         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'
+      }).addTo(mymap);
+      
+
+      var month = 0;
+      // console.log({{data}});
+      var polyz = {{data|tojson}}
+      // polyz = JSON.parse(polyz);
+      console.log(polyz);
+      var a = polyz[2]["shape"]
+      var p = [];
+      for(var i=0; i<11;i++){
+        var values = a[i].split(", ");
+        var v1 = parseFloat(values[0]);
+        var v2 = parseFloat(values[1]);
+        console.log(typeof(v1));
+        console.log(v1.toString(), v2.toString());
+        p[i]=[v1, v2];
+      }
+      console.log(p)
+      console.log("P: "+p.toString());
+      L.polygon(p, {noClip:true}).addTo(mymap);
+      // function makePolys(polys){
+      //   for(var i=0; i < polys.length; i++){
+      //     console.log("IIIIII: "+i.toString());
+      //     if(polys[i]["shape"].length > 2){
+      //       p = []
+      //       for(var j=0; j<polys[i]["shape"].length;j++){
+      //         p.push(eval([polys[i]["shape"][j]]));
+      //       }
+      //       console.log("p1: "+p.toString());
+      //       L.polygon(p).addTo(mymap);
+      //     }
+      //     else if(polys[i]["shape"].length > 0){
+      //       for(var j=0;j<polys[i]["shape"].length;j++){
+      //         // l = L.latlng()
+      //         console.log("p2: "+eval([polys[i]["shape"][j]]));
+      //         ll = [eval([polys[i]["shape"][j]])];
+      //         L.circle(ll, 500,{
+      //                           color: 'red',
+      //                           fillColor: '#f03',
+      //                           fillOpacity: 0.5
+      //                         }) //.addTo(mymap)
+      //       }
+      //     }
+      //     else{
+      //       console.log("nothing");
+      //     }
+      //   }
+      // }
+      // makePolys(polyz);
+   </script>
+
+   <script src="https://use.fontawesome.com/54d971dc03.js"></script>
+
+   <script src="../static/js/leaflet.awesome-markers.js"></script>
+   <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+</body>
+</html>
