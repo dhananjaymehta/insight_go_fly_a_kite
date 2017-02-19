@@ -49,8 +49,6 @@
   </div>
    <script>
       var mymap = L.map('mapid').setView([37.426429, -122.140872], 13);
-      // var redis = require("redis");
-      // var sub = redis.createClient(), pub = redis.createClient();
 
       L.tileLayer('https://api.mapbox.com/styles/v1/moriahc/ciypghxzj000m2rptn1avcsq6/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibW9yaWFoYyIsImEiOiJjaXlwZ2Q2b3gwMDNvMnFwZ3lvcHVkM244In0.Cc3-I1gUP2xtPDhQ-ecXKQ', {
          attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'
@@ -58,65 +56,60 @@
       
       var clickCount=0
       var wind01 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_00_burned.png',
+        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/app/kite_0.png',
         iconSize: [38, 95],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
        });
       var wind02 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_0_burned.png',
+        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/app/kite_1.png',
         iconSize: [38, 95],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
        });
       var wind03 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_1_burned.png',
+        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/app/kite_2.png',
         iconSize: [38, 95],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
        });
       var wind04 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_2_burned.png',
+        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/app/kite_3.png',
         iconSize: [38, 95],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
        });
       var wind05 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_3_burned.png',
+        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/app/kite_4.png',
         iconSize: [38, 95],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
        });
       var wind06 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_4_burned.png',
+        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/app/kite_5.png',
         iconSize: [38, 95],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
        });
       var wind07 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_5_burned.png',
+        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/app/kite_6.png',
         iconSize: [38, 95],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
        });
       var wind08 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_6_burned.png',
+        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/app/kite_7.png',
         iconSize: [38, 95],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
        });
       var wind09 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_7_burned.png',
+        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/app/kite_8.png',
         iconSize: [38, 95],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
        });
-      var wind10 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_8_burned.png',
-        iconSize: [38, 95],
-        iconAnchor: [22, 94],
-        popupAnchor: [-3, -76]
-       });
+
       
       // var m 
 
@@ -133,35 +126,32 @@
         console.log(objD);
 
         var m = L.marker([lat, lon])
-        if (val < 10){
+        if (val < 20){
           m = L.marker([lat, lon], {icon : wind01 })
         }
-        else if (val < 20){
+        else if (val < 30){
           m = L.marker([lat, lon], {icon : wind02 });
         }
-        else if (val < 30){
+        else if (val < 40){
           m = L.marker([lat, lon], {icon : wind03 });
         }
-        else if (val < 40){
+        else if (val < 50){
           m = L.marker([lat, lon], {icon : wind04 });
         }
-        else if (val < 50){
+        else if (val < 60){
           m = L.marker([lat, lon], {icon : wind05 });
         }
-        else if (val < 60){
+        else if (val < 70){
           m = L.marker([lat, lon], {icon : wind06 });
         }
-        else if (val < 70){
+        else if (val < 80){
           m = L.marker([lat, lon], {icon : wind07 });
         }
-        else if (val < 80){
+        else if (val < 90){
           m = L.marker([lat, lon], {icon : wind08 });
         }
-        else if (val < 90){
-          m = L.marker([lat, lon], {icon : wind09 });
-        }
         else{
-          m = L.marker([lat, lon], {icon : wind10 });
+          m = L.marker([lat, lon], {icon : wind09 });
         }
         m.addTo(mymap);
         if(gradient){
@@ -173,11 +163,11 @@
         if(season){
           var popup = L.popup()
           .setLatLng(L.latLng(lat, lon))
-          .setContent('<p>Hello Moriah!<br />Checkout the wind ;)<br/></p>'+'Stoke: '+val.toString()+"%"+"<br/>Average: "+av.toString()+'<br/>Up/Down: '+g_out.toString()+'<br/>Season? '+season.toString())}
+          .setContent('Stoke: '+val.toString()+"%"+"<br/>Average: "+av.toString()+'<br/>Up/Down: '+g_out.toString()+'<br/>Season? '+season.toString())}
         else{
           var popup = L.popup()
           .setLatLng(L.latLng(lat, lon))
-          .setContent('<p>Hello Moriah!<br />Checkout the wind ;)<br/></p>'+'Stoke: '+val.toString()+"%"+"<br/>Average: "+av.toString()+'<br/>Up/Down: '+g_out.toString());
+          .setContent('Stoke: '+val.toString()+"%"+"<br/>Average: "+av.toString()+'<br/>Up/Down: '+g_out.toString());
         }
         mymap.addLayer(popup);
 
@@ -185,8 +175,6 @@
 
 
       function onMapClick(e){
-        // get user input radius
-        // create marker and pop up
         var radius = prompt("Please enter radius (mi)", "10");
         if (radius != null){
           $.get("quickspot?lat="+e.latlng["lat"].toString()+"&lon="+e.latlng["lng"].toString()+"&radius="+radius.toString(), function(data, status){
@@ -194,8 +182,6 @@
               console.log(data)
               if (data.length != 0){
                 makeMarker(data);
-                // m.bindPopup('<p>Hello Moriah!<br />Checkout the wind ;)<br/></p>'+'Stoke: '+val.toString()+"%"+"<br/>Average: "+av.toString()).openPopup();
-
               }
               else{
                 L.popup().setLatLng(e.latlng).setContent('<p>No stations exist within this radius.</p>').openOn(mymap);
@@ -207,9 +193,6 @@
       mymap.on('click', onMapClick);
 
    </script>
-
-   <script src="https://use.fontawesome.com/54d971dc03.js"></script>
-
    <script src="../static/js/leaflet.awesome-markers.js"></script>
    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 </body>

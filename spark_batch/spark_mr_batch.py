@@ -118,7 +118,6 @@ def main():
 	for fyle in bucket:
 		print "FILE: ", fyle.name
 		rdd = sc.textFile(path + fyle.name)
-		# rdd = sc.textFile(path + "199607hourly.txt")
 		header = rdd.first()
 		getHeader(header)
 		rdd = rdd.filter(lambda line: line != header)\

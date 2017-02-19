@@ -46,8 +46,8 @@ def formatL(item):
 
 
 sc = SparkContext()
-es = Elasticsearch([ES_IP], http_auth=(ES_IP, ES_PASSWORD),\
-									verify_certs=False)
+es = Elasticsearch([SETTINGS[ES_IP]], http_auth=(settings[ES_IP],\
+						SETTINGS[ES_PASSWORD]),	verify_certs=False)
 test = es.search(index='stream_data')
 num_docs = test['hits']['total']
 res = es.search(index="stream_test", size=num_docs)

@@ -20,15 +20,19 @@
    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
-  <script>
-    $( function() {
-      $( ".widget input[type=submit], .widget a, .widget button" ).button();
-      $( "button, input, a" ).click( function( event ) {
-        event.preventDefault();
-      } );
-    } );
-  </script>
+
    <title>{{title}} - microblog</title>
+   <style>
+
+     .widget{
+      position: relative;
+      float:center;
+      margin-left: 30%;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      margin-right: 30%
+     }
+   </style>
 </head>
 <body>
    <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -52,84 +56,81 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
+    <div class="widget_container">
     <div class="widget" >
       <!-- <button>A button element</button> -->
-      <input type="submit" value="PICK AREAS">
-      <input type="submit" value="GET INFO">
+      <button  onclick="changeme()" >PICK AREAS</button>
+      <button onclick="changemeback()" >GET INFO</button>
     </div>
+  </div>
    <div data-tap-disable="true">
     <div id="mapid" style="width: 100%; height: 100%;"></div>
   </div>
    <script>
+    var looking=true
+   function changeme(){
+    console.log("yippie")
+    looking = true;
+   }
+   function changemeback(){
+    console.log("yippeback")
+    looking=false;
+   }
       var mymap = L.map('mapid').setView([37.426429, -122.140872], 13);
-      // var redis = require("redis");
-      // var sub = redis.createClient(), pub = redis.createClient();
-
       L.tileLayer('https://api.mapbox.com/styles/v1/moriahc/ciypghxzj000m2rptn1avcsq6/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibW9yaWFoYyIsImEiOiJjaXlwZ2Q2b3gwMDNvMnFwZ3lvcHVkM244In0.Cc3-I1gUP2xtPDhQ-ecXKQ', {
          attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'
       }).addTo(mymap);
-      
-      // L.marker([37.426429, -122.140872]).addTo(mymap)
-      // .bindPopup("<b>Hello world!</b><br />I am a popup.");
-
-      // var popup = L.popup();
       var clickCount=0
       var wind01 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_00_burned.png',
+        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/app/kite_0.png',
         iconSize: [38, 95],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
        });
       var wind02 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_0_burned.png',
+        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/app/kite_1.png',
         iconSize: [38, 95],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
        });
       var wind03 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_1_burned.png',
+        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/app/kite_2.png',
         iconSize: [38, 95],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
        });
       var wind04 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_2_burned.png',
+        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/app/kite_3.png',
         iconSize: [38, 95],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
        });
       var wind05 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_3_burned.png',
+        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/app/kite_4.png',
         iconSize: [38, 95],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
        });
       var wind06 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_4_burned.png',
+        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/app/kite_5.png',
         iconSize: [38, 95],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
        });
       var wind07 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_5_burned.png',
+        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/app/kite_6.png',
         iconSize: [38, 95],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
        });
       var wind08 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_6_burned.png',
+        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/app/kite_7.png',
         iconSize: [38, 95],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
        });
       var wind09 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_7_burned.png',
-        iconSize: [38, 95],
-        iconAnchor: [22, 94],
-        popupAnchor: [-3, -76]
-       });
-      var wind10 = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/kite_8_burned.png',
+        iconUrl: 'https://raw.githubusercontent.com/moriahc/insight_go_fly_a_kite/master/app/kite_8.png',
         iconSize: [38, 95],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
@@ -142,46 +143,35 @@
             if(val == null){
               val = 0 
             }
-            console.log(objD[i]);
-            // var w = objD[key]["av"];
-            // var sc = objD[key]["sc"];
-
             var m = L.marker([lat, lon])
-            if (val < 10){
+            if (val < 20){
               m = L.marker([lat, lon], {icon : wind01 })
             }
-            else if (val < 20){
+            else if (val < 30){
               m = L.marker([lat, lon], {icon : wind02 });
             }
-            else if (val < 30){
+            else if (val < 40){
               m = L.marker([lat, lon], {icon : wind03 });
             }
-            else if (val < 40){
+            else if (val < 50){
               m = L.marker([lat, lon], {icon : wind04 });
             }
-            else if (val < 50){
+            else if (val < 60){
               m = L.marker([lat, lon], {icon : wind05 });
             }
-            else if (val < 60){
+            else if (val < 70){
               m = L.marker([lat, lon], {icon : wind06 });
             }
-            else if (val < 70){
+            else if (val < 80){
               m = L.marker([lat, lon], {icon : wind07 });
             }
-            else if (val < 80){
+            else if (val < 90){
               m = L.marker([lat, lon], {icon : wind08 });
             }
-            else if (val < 90){
+            else{
               m = L.marker([lat, lon], {icon : wind09 });
             }
-            else{
-              m = L.marker([lat, lon], {icon : wind10 });
-            }
             m.addTo(mymap);
-            // m.bindPopup("content");
-            // m.on('hover', open_popup);
-            // .addTo(search_group);
-            // <br />"+w.toString()+" With a score of: "+ sc.toString());
          }
       }
       function makePopupsAppear(info){
@@ -206,24 +196,12 @@
           var po = L.popup().setLatLng(LL).setContent('<p>Hello Moriah!<br />Checkout the wind ;)<br/></p>'+'Stoke: '+value.toString()+"%"+"<br/>Average: "+av.toString()+"<br/>Up/Down: "+g_out);
         }
         mymap.addLayer(po);
-        // .openOn(mymap);
 
       }
-      // mymap.addLayer(search_group);
-
-    //   function open_popup(e){
-    //     L.popup()
-    // .setLatLng(e.latlng)
-    // .setContent('<p>Hello world!<br />This is a nice popup.</p>')
-    // .openOn(mymap);
-    //     console.log("HERE")
-    //   }
 
       function onMapClick(e) {
-        // console.log(e.latlng[0].toString())
-        // AJAX
         clickCount = clickCount + 1
-        if (clickCount < 5){
+        if (looking){
           console.log(e.toString())
           lat = e.latlng["lat"];
           lon = e.latlng["lng"];
@@ -233,7 +211,6 @@
           });
       }
       else{
-        // open pop up with info
         $.get("closest?lat="+e.latlng["lat"].toString()+"&lon="+e.latlng["lng"].toString(), function(data, status){
             data = JSON.parse(data)
             console.log(data)

@@ -75,7 +75,7 @@ class Surrounding_Listener(threading.Thread):
 				if val[1] > max_w[1]:
 					max_w = val
 					ll_max = self.r.geopos("all_loc", loc)
-			season = get_season(ll_max[0][0], ll_max[0][1], int(datetime.now().strftime("%m")))
+			season = get_season(ll_max[0][0], ll_max[0][1], int(datetime.utcnow().strftime("%m")))
 			gradient = get_gradient(ll_max[0][0], ll_max[0][1], val[0])
 			return {"value" : max_w,
 					"longitude" : ll_max[0][0],
@@ -88,8 +88,8 @@ class Surrounding_Listener(threading.Thread):
 
 
 def get_season(lat, lon, month):
-	es = Elasticsearch(['52.33.3.123'], http_auth=('elastic',\
-					 			'changeme'), verify_certs=False)
+	# es = Elasticsearch(['52.33.3.123'], http_auth=('elastic',\
+	# 				 			'changeme'), verify_certs=False)
 	# month = datetime.datetime.now().strftime("%m")
 	stations = json.load(open("all_stations.json", "r"))
 	if [lat,lon] in stations.values():
@@ -143,13 +143,19 @@ def get_all_seasons(lat, lon):
 
 
 def get_gradient(lon, lat, curr_w):
-	es = Elasticsearch([SETTINGS["ES_IP"]], http_auth=(SETTINGS["ES_USER_NAME",\
-			 			SETTINGS["ES_PASS"]), verify_certs=False)
-	hour = datetime.now().hour
+	es = Elasticsearch([SETTINGS["ES_IP"]], http_auth=(SETTINGS["ES_USER_NAME"],SETTINGS["ES_PASSWORD"]), verify_certs=False)
+	hour = datetime.utcnow().hour
+	hour_min = str(hour-1)
+	hour = str(hour)
+	if len(hour_min)<2:
+		hour_min = "0"+hour_min
+	if len(hour)<2:
+		hour = "0"+hour
+	print 'HOUR!!!: ', hour
 	es_val = { "query":                                                                     
     			{"bool" : 
             		{"must" : 
-                    	{"range" : {"hour":{"gte":str(hour-1), "lte":str(hour)}}},
+                    	{"range" : {"hour":{"gte":hour_min, "lte":hour}}},
             			"filter" : {"geo_distance" : 
                                        {"distance" : "5km",
                                         "location" : {"lat" : lat,"lon" : lon}
@@ -158,7 +164,14 @@ def get_gradient(lon, lat, curr_w):
             		}
     			}
 			}
-	wind = es.search(index='stream_data',doc_type="data", body=es_val, size=1)["hits"]["hits"][0]["_source"]["wind"]
+	
+
+	wind = es.search(index='stream_data',doc_type="data", body=es_val, size=1)["hits"]
+	if wind["total"]>=1:
+		wind = wind["hits"][0]["_source"]["wind"]
+	else:
+		print "FUCK!"
+		wind = 0
 	print "\n WIND \n", wind
 	return curr_w - wind > 0
 

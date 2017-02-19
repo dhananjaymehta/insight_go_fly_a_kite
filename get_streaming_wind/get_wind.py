@@ -58,7 +58,7 @@ def call_wind_api(lat, lon):
 		info = json.loads(js_url)
 	except:
 		info = None
-	date_time = str(datetime.datetime.now()).replace(':', '')\
+	date_time = str(datetime.datetime.utcnow()).replace(':', '')\
 											.replace('-', '')
 	date = date_time[0:8]
 	time = date_time[9:15]

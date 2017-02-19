@@ -1,0 +1,31 @@
+<html>
+<head>
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+  <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#slider-range-min" ).slider({
+      range: "min",
+      value: 1,
+      min: 1,
+      max: 12,
+      slide: function( event, ui ) {
+        $( "#amount" ).val( "$" + ui.value );
+        console.log("yippies");
+        console.log(ui.value.toString());
+      }
+    });
+    $( "#amount" ).val( "$" + $( "#slider-range-min" ).slider( "value" ) );
+  } );
+</script>
+</head>
+<body>
+ <div id="container">
+<div id="slider-range-min" ></div>
+ </div>
+ 
+</body>
+</html>

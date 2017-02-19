@@ -1,31 +1,58 @@
 <html>
 <head>
    <link href="../../static/css/bootstrap.min.css" rel="stylesheet">
-   <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
    <link href="../static/css/starter-template.css" rel="stylesheet">
-   <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-   <link rel="stylesheet" href="../static/css/leaflet.awesome-markers.css">
-   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
+   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-   <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-
    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
-   <script src="https://use.fontawesome.com/54d971dc03.js"></script>
-   <script src="../static/js/leaflet.awesome-markers.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-   <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
-   <title>{{title}} - microblog</title>
+   <style>
+      body {
+        background-color: #000;
+      }
+      #custom-handle {
+        width: 3em;
+        height: 1.6em;
+        top: 50%;
+        margin-top: -.8em;
+        text-align: center;
+        line-height: 1.6em;
+      }
+  </style>
+<script>
+  var month=0;
+  var old_month=0;
+  var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+  $( function() {
+    var handle = $( "#custom-handle" );
+    $( "#slider-range-min" ).slider({
+      range:"min",
+      value:0,
+      min: 0,
+      max: 11,
+      create: function() {
+        handle.text("Jan");
+      },
+      slide: function( event, ui ) {
+        handle.text( months[ui.value]);
+        $( "#amount" ).val( "$" + ui.value );
+           console.log("yippies");
+           old_month = month;
+           month = parseInt(ui.value);
+           toggle();
+      }
+
+    });
+    $( "#amount" ).val( "$" + $( "#slider-range-min" ).slider( "value" ) );
+  } );
+</script>
+<style>
+</style>
 </head>
-<body>
+<body style="background-color:#d3d3d3">
    <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -43,74 +70,105 @@
             <li ><a href="index">Map</a></li>
             <li ><a href="realtime">Data</a></li>
             <li class="active"><a href="#">Regions</a></li>
-
           </ul>
-        </div><!--/.nav-collapse -->
+        </div>
       </div>
     </nav>
+    <div id="slider-range-min" style="margin-top: 30px; margin-bottom:20px; width:80%; margin-left:10%">
+      <div id="custom-handle" class="ui-slider-handle"></div>
+    </div>
    <div data-tap-disable="true">
     <div id="mapid" style="width: 100%; height: 100%;"></div>
-    <!-- <div id="slider"></div> -->
   </div>
    <script>
-      var mymap = L.map('mapid').setView([42.09861, -83.16111], 13);
+      var mymap = L.map('mapid').setView([40.854290, -113.995877], 4);
       L.tileLayer('https://api.mapbox.com/styles/v1/moriahc/ciypghxzj000m2rptn1avcsq6/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibW9yaWFoYyIsImEiOiJjaXlwZ2Q2b3gwMDNvMnFwZ3lvcHVkM244In0.Cc3-I1gUP2xtPDhQ-ecXKQ', {
          attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'
       }).addTo(mymap);
-      
-
-      var month = 0;
-      // console.log({{data}});
       var polyz = {{data|tojson}}
-      // polyz = JSON.parse(polyz);
-      console.log(polyz);
-      var a = polyz[2]["shape"]
-      var p = [];
-      for(var i=0; i<11;i++){
-        var values = a[i].split(", ");
-        var v1 = parseFloat(values[0]);
-        var v2 = parseFloat(values[1]);
-        console.log(typeof(v1));
-        console.log(v1.toString(), v2.toString());
-        p[i]=[v1, v2];
+      var layers = []
+      function set_all(polz){
+        for(var i=0;i<12;i++){
+          layer = []
+          for (var j=0; j<polyz.length; j++){
+            if(polyz[j]["seasons"][i]>0.75){
+            c = L.circle([polyz[j]["shape"][0], polyz[j]["shape"][1]], {
+                  color: '#009900',
+                  fillColor: '#009900',
+                  fillOpacity: 0.5,
+                  radius: 200000
+                });
+            }
+            else if(polyz[j]["seasons"][i]>0.60){
+              c = L.circle([polyz[j]["shape"][0], polyz[j]["shape"][1]], {
+                    color: '#66ff33',
+                    fillColor: '#66ff33',
+                    fillOpacity: 0.5,
+                    radius: 200000
+                  });
+            }
+            else if(polyz[j]["seasons"][i]>0.50){
+              c = L.circle([polyz[j]["shape"][0], polyz[j]["shape"][1]], {
+                    color: '#99ff33',
+                    fillColor: '#99ff33',
+                    fillOpacity: 0.5,
+                    radius: 200000
+                  });
+            }
+            else if(polyz[j]["seasons"][i]>0.40){
+              c = L.circle([polyz[j]["shape"][0], polyz[j]["shape"][1]], {
+                    color: '#ccff33',
+                    fillColor: '#ccff33',
+                    fillOpacity: 0.5,
+                    radius: 200000
+                  });
+            }
+            else if(polyz[j]["seasons"][i]>0.30){
+              c = L.circle([polyz[j]["shape"][0], polyz[j]["shape"][1]], {
+                    color: '#ffcc00',
+                    fillColor: '#ffcc00',
+                    fillOpacity: 0.5,
+                    radius: 200000
+                  });
+            }
+            else if(polyz[j]["seasons"][i]>0.20){
+              c = L.circle([polyz[j]["shape"][0], polyz[j]["shape"][1]], {
+                    color: '#ff9933',
+                    fillColor: '#ff9933',
+                    fillOpacity: 0.5,
+                    radius: 200000
+                  });
+            }
+            else if(polyz[j]["seasons"][i]>0.05){
+              c = L.circle([polyz[j]["shape"][0], polyz[j]["shape"][1]], {
+                    color: '#ff6600',
+                    fillColor: '#ff6600',
+                    fillOpacity: 0.5,
+                    radius: 200000
+                  });
+            }
+            else{
+              c = L.circle([polyz[j]["shape"][0], polyz[j]["shape"][1]], {
+                    color: '#ff0000',
+                    fillColor: '#ff0000',
+                    fillOpacity: 0.5,
+                    radius: 200000
+                  });
+            }
+          layer.push(c);
+          }
+          layers.push(L.layerGroup(layer));
+        }
       }
-      console.log(p)
-      console.log("P: "+p.toString());
-      L.polygon(p, {noClip:true}).addTo(mymap);
-      // function makePolys(polys){
-      //   for(var i=0; i < polys.length; i++){
-      //     console.log("IIIIII: "+i.toString());
-      //     if(polys[i]["shape"].length > 2){
-      //       p = []
-      //       for(var j=0; j<polys[i]["shape"].length;j++){
-      //         p.push(eval([polys[i]["shape"][j]]));
-      //       }
-      //       console.log("p1: "+p.toString());
-      //       L.polygon(p).addTo(mymap);
-      //     }
-      //     else if(polys[i]["shape"].length > 0){
-      //       for(var j=0;j<polys[i]["shape"].length;j++){
-      //         // l = L.latlng()
-      //         console.log("p2: "+eval([polys[i]["shape"][j]]));
-      //         ll = [eval([polys[i]["shape"][j]])];
-      //         L.circle(ll, 500,{
-      //                           color: 'red',
-      //                           fillColor: '#f03',
-      //                           fillOpacity: 0.5
-      //                         }) //.addTo(mymap)
-      //       }
-      //     }
-      //     else{
-      //       console.log("nothing");
-      //     }
-      //   }
-      // }
-      // makePolys(polyz);
+      set_all();
+      layers[month].addTo(mymap);
+
+      function toggle(){
+        mymap.removeLayer(layers[old_month]);
+
+        layers[month].addTo(mymap);
+      }
    </script>
-
-   <script src="https://use.fontawesome.com/54d971dc03.js"></script>
-
-   <script src="../static/js/leaflet.awesome-markers.js"></script>
    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 </body>
 </html>
