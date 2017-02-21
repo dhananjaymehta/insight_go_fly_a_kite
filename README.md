@@ -28,7 +28,7 @@ The project Has to main parts. The batch portion which uses NOAA (National Ocean
 ##Batch
 The batch portion of the pipeline uses S3, Spark, and Elasticsearch. The first part of moving the data though the pipeline was crawling noaa.gov website to download the historical weather files for the past 21 years into S3. Fortunately these files (.txt) were partitioned nicely (by month) keeping the max file size decently small 500mb. Amounting to almost 100gb in total. Spark then accesses these files as RDDs (Resilient Distributed Dataset), the data is in the form of text files with a header at the top. The header is split by word into an array and the indices of various terms are stored. The header is filtered out of the rdd, and lines individually split and only the indices corresponding to the selected values (wban, time, windspeed) in the header are kept using a simple ‘.map()’ function on the rdd. Because the weather files do not have longitude and latitude associated with the wban number I had to parse through the stations description files, extract the wban, longitude, and latitude and write it into a son file for easy access, this wasn’t very difficult because there are only about 3000 unique stations. Since the format of the header and text titles change /at various points throughout the past 21 years, there was a bit of a challenge in making the correct values for all of the files. 
 
-<img src=“batch.png” width="800">
+<img src="batch.png" width="800">
 
 In the reduce step, the data is reduced based on a key of the longitude, latitude, and date, and the list of times the wind was recorded is gathered along with a list of windspeed. This data is then written into Elasticsearch as a document. The Elasticsearch index the documents are stored in has a predefined schema to help decrease write time, the schema’s used for batch and streaming can be found in ‘/dev/es_index.txt’.
 
@@ -38,7 +38,7 @@ Once the data is in Elasticsearch the main query on the data is the seasonality 
 ##Streaming
 I began my streaming pipeline by calling every location in the NOAA API, in order to get more data to test the throughput of my pipeline and simulate for a higher resolution, for each location/API I created over a thousand “fake” stations in the surrounding area. This data is produced to a kafka topic which is consumed by spark streaming. 
 
-<img src=“stream.png" width="800">
+<img src="stream.png" width="800">
 
 Two main computations need to be done on this data, the windowed standard deviation and average of the windspeed of each location. Instead of the normal standard deviation function (not one pass) which is not efficient in the map/reduce format, a one pass method for standard deviation was used. This was taken over a 2.5 min window. This data is stored in Redis and each time the previous value in Redis overwritten. This data is then queried through flask to get query 1 & 4 mentioned above.
 
