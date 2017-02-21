@@ -6,7 +6,7 @@
 4. [Pipeline](README.md#pipeline)
 5. [Repository Structure](README.md#repository-structure)
 
-<img src=“img2.png” width="800">
+<img src="img2.png" width="800">
 
 ##Overview
 The following is my Go Fly a Kite (stream and batch wind data processing and analysis) Project, complete as part of the Insight Data Engineering Fellowship- Silicon Valley Winter 2017. 
