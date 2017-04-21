@@ -11,7 +11,7 @@
 ##Overview
 The following is my Go Fly a Kite (stream and batch wind data processing and analysis) Project, complete as part of the Insight Data Engineering Fellowship- Silicon Valley Winter 2017. 
 
-The project Has to main parts. The batch portion which uses NOAA (National Oceanic & Atmospheric Administration) data to provide information about historical wind speeds at locations around the world. The second part, the streaming portion, produces messages using the NOAA current weather Api, and simulation to mimic a higher resolution of wind stations. The two branches allow the user to preform 5 queries.
+The project Has two main parts. The batch portion which uses NOAA (National Oceanic & Atmospheric Administration) data to provide information about historical wind speeds at locations around the world. The second part, the streaming portion, produces messages using the NOAA current weather Api, and simulation to mimic a higher resolution of wind stations. The two branches allow the user to preform 5 queries.
 
 1. Realtime wind Averages and Stoke % by location
 2. Gradient of the wind, for the past hour at any location
